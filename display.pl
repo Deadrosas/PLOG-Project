@@ -1,14 +1,12 @@
-printBoard([Head|Tail]) :- 
+displayGame([Head|Tail]) :- 
         printRow(Head),
-        printBoard(Tail).
-printBoard([]).
+        displayGame(Tail).
+displayGame([]).
 
 printRow([Head|Tail]) :-
         write(Head),
         write('  '),
         printRow(Tail).
-printRow([]) :- nl.
-
-f :- 
-    emptyBoard(Board),
-    printBoard(Board).
+printRow([]) :- nl, nl.
+        
+printLineDivision :-  put_code(9552), put_code(9552), put_code(9552), put_code(9552), put_code(9552), put_code(9552).
