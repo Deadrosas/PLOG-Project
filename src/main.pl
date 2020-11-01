@@ -11,5 +11,5 @@
 
 
 play:-
-    mid(Board),
+    final(Board),
     displayGame(Board).
