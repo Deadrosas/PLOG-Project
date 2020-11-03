@@ -11,13 +11,7 @@
 
 
 init:-
+    print('Insira o Tamanho do Board') % números > 10 desformatam o board é preciso dar fix
     read(Size),
-    % createBoard(Board, Size, Size),
-    initial(Board),
-    displayGame(Board),
-    read(Size),
-    mid(Board1),
-    displayGame(Board1),
-    read(Size),
-    final(Board2),
-    displayGame(Board2).
+    createBoard(Board, Size, Size),
+    displayGame(Board).

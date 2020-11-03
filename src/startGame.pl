@@ -36,7 +36,7 @@ final([
   ]).
 
 
-createBoard([], 0, Total).
+createBoard([], 0, _).
 createBoard([H|T], N, Total):-
   N > 0,
   N1 is N-1,

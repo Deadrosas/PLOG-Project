@@ -107,13 +107,12 @@ displayBoard(Board, Nmax):-
   displayRowTop(0, Nmax),
   displayBoardAux(Board, 0, Nmax).
 
-displayRow(N, N1, N2):-
+displayRow(_, N1, N2):-
   N1 \== N2,
   displayRowMiddle(0,N2).
 
-displayRow(N, N1, N1):-
+displayRow(_, N1, N1):-
   displayRowBot(0,N1).
-
 displayBoardAux([], N, N).
 displayBoardAux([H|T], RowNumber, Nmax):-
   put_code(9553), write('  '), write(RowNumber), write('  '), put_code(9553),
