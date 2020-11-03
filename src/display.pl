@@ -8,17 +8,17 @@ piece(N, black, Code):-
 
 colour(empty, none).
 
-colour(1, black).
+colour(p1, black).
 colour(p2, black).
 colour(p3, black).
-colour(4, black).
+colour(p4, black).
 colour(p5, black).
 colour(p6, black).
 colour(b1, white).
-colour(2, white).
+colour(b2, white).
 colour(b3, white).
 colour(b4, white).
-colour(3, white).
+colour(b3, white).
 colour(b6, white).
 
 
@@ -36,33 +36,6 @@ stack(b3, 3).
 stack(b4, 4).
 stack(b5, 5).
 stack(b6, 6).
-
-/*displayGame2(Board):-
-  lenght(Board, Nmax),
-  write('      '), put_code(9556),
-  printHeader(0, Nmax).
-
-
-
-printRow(N,N).
-printRow(N):-
-  getListElemAt(N, Board, Array),
-  newPrintLine(Array, 0),
-  put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl.
-  NewN is N+1,
-  printRowAux(0, N).
-
-printRowAux(N, Nmax).
-
-printFooter(N, N).
-printFooter(N,Nmax):-
-  printLineDivision, put_code(9574),
-  NewN is N+1,
-  printHeader(NewN, Nmax).
-
-  
-displayGameAux(_, 0).*/
-
 
 displayHeaderTop(N, N):-
   printLineDivision, put_code(9559), nl.
@@ -117,28 +90,49 @@ displayRowMiddle(N,Nmax):-
   NewN is N+1,
   displayRowMiddle(NewN, Nmax).
 
+
+displayRowBot(N, N):-
+  printLineDivision, put_code(9565), nl.
+
+displayRowBot(0, N):-
+  put_code(9562), printLineDivision, put_code(9577),
+  displayRowBot(1, N).
+
+displayRowBot(N,Nmax):-
+  printLineDivision, put_code(9577),
+  NewN is N+1,
+  displayRowBot(NewN, Nmax).
+
 displayBoard(Board, Nmax):-
   displayRowTop(0, Nmax),
   displayBoardAux(Board, 0, Nmax).
 
+displayRow(N, N1, N2):-
+  N1 \== N2,
+  displayRowMiddle(0,N2).
+
+displayRow(N, N1, N1):-
+  displayRowBot(0,N1).
+
 displayBoardAux([], N, N).
-displayBoardAux([H|T], N, Nmax):-
-  displayBoardValues(H, 0, Nmax, N),
-  N1 is N + 1,
-  displayRowMiddle(0, Nmax),
+displayBoardAux([H|T], RowNumber, Nmax):-
+  put_code(9553), write('  '), write(RowNumber), write('  '), put_code(9553),
+  displayRowValues(H, 0, Nmax), nl,
+  N1 is RowNumber + 1,
+  displayRow(0, N1, Nmax),
   displayBoardAux(T, N1, Nmax).
 
-displayBoardValues([], N, N, N).
-displayBoardValues([H|T], N, Nmax, RowNumber):-
-  put_code(9553), write('  '), write(RowNumber), write('  '), put_code(9553) , nl.
-  print(H),
+displayRowValues([], N, N).
+displayRowValues([H|T], N, Nmax):-
   N1 is N + 1,
-  displayValue(H)
-  displayBoardValues(T, N1, Nmax, RowNumber).
+  displayValue(H),
+  put_code(9553),
+  displayRowValues(T, N1, Nmax).
 
 displayValue(Elem):-
   colour(Elem, X),
-  printCel(Elem, X).
+  stack(Elem, Y),
+  printCel(Y, X).
 
 
 displayGame(Board):-
@@ -180,54 +174,12 @@ display1(Board):-
         getListElemAt(8, Board, Array8),
         printLine(Array8, 8, white),
         put_code(9562), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9565).
-printLine(Array, Value, Colour) :-
-  Colour == white,
-  getListElemAt(0, Array, Elem1),
-  getListElemAt(1, Array, Elem2),
-  getListElemAt(2, Array, Elem3),
-  getListElemAt(3, Array, Elem4),
-  getListElemAt(4, Array, Elem5),
-  getListElemAt(5, Array, Elem6),
-  getListElemAt(6, Array, Elem7),
-  getListElemAt(7, Array, Elem8),
-  getListElemAt(8, Array, Elem9),
-  put_code(9553), write('  '), write(Value), write('  '), put_code(9553), printCel(Elem1, black), put_code(9553), printCel(Elem2, black), put_code(9553), printCel(Elem3, black), put_code(9553), printCel(Elem4, black), put_code(9553), printCel(Elem5, white), put_code(9553), printCel(Elem6, black), put_code(9553), printCel(Elem7, white), put_code(9553), printCel(Elem8, white), put_code(9553), printCel(Elem9, white), put_code(9553), nl.
-
-printLine(Array, Value, Colour) :-
-  Colour == black,
-  getListElemAt(0, Array, Elem1),
-  getListElemAt(1, Array, Elem2),
-  getListElemAt(2, Array, Elem3),
-  getListElemAt(3, Array, Elem4),
-  getListElemAt(4, Array, Elem5),
-  getListElemAt(5, Array, Elem6),
-  getListElemAt(6, Array, Elem7),
-  getListElemAt(7, Array, Elem8),
-  getListElemAt(8, Array, Elem9),
-  put_code(9553), write('  '), write(Value), write('  '), put_code(9553), printCel(Elem1, white), put_code(9553), printCel(Elem2, white), put_code(9553), printCel(Elem3, white), put_code(9553), printCel(Elem4, white), put_code(9553), printCel(Elem5, black), put_code(9553), printCel(Elem6, white), put_code(9553), printCel(Elem7, white), put_code(9553), printCel(Elem8, black), put_code(9553), printCel(Elem9, black), put_code(9553), nl.
-
-/*newPrintLine(Array, Value) :-
-  colour(Value,X),
-  X == black,
-  put_code(9553), printCel(Elem1, black).
-
-newPrintLine(Array, Value) :-
-  colour(value,X),
-  X == white,
-  put_code(9553), printCel(Elem1, white).*/
-
 
 printCel(empty) :- 
-  write('  '), /*put_code(10122),*/ write('   ').
+  write('     ').
 
 printCel(Elem, ElemColour) :-
   piece(Elem, ElemColour, Code), 
   write('  '), put_code(Code), write(' ').
-
-/*printCel(Elem) :- Elem \== empty,
-  %colour(Elem, ElemColour),
-  %ElemColour == white,
-  piece(Elem, ElemColour, Code), 
-  write('  '), put_code(Code), write(' ').*/
 
 printLineDivision :-  put_code(9552), put_code(9552), put_code(9552), put_code(9552), put_code(9552).
