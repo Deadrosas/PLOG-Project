@@ -34,3 +34,18 @@ final([
   [4, 2, 2, 1, 2, 1, 3, 1, 1],
   [1, 1, 3, 2, 1, 3, 1, 2, 4]
   ]).
+
+
+createBoard([], 0, Total).
+createBoard([H|T], N, Total):-
+  N > 0,
+  N1 is N-1,
+  NT is Total,
+  createRow(H, NT),
+  createBoard(T, N1, Total).
+
+createRow([],0).
+createRow([p1|Row],N):-
+  N > 0,
+  N1 is N-1,
+  createRow(Row,N1).

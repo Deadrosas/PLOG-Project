@@ -40,14 +40,6 @@ stack(b6, 6).
   write('      '), put_code(9556),
   printHeader(0, Nmax).
 
-  
-
-
-printHeader(N, N).
-printHeader(N,Nmax):-
-  printLineDivision, put_code(9574),
-  NewN is N+1,
-  printHeader(NewN, Nmax).
 
 
 printRow(N,N).
@@ -60,7 +52,6 @@ printRow(N):-
 
 printRowAux(N, Nmax).
 
-
 printFooter(N, N).
 printFooter(N,Nmax):-
   printLineDivision, put_code(9574),
@@ -71,8 +62,59 @@ printFooter(N,Nmax):-
 displayGameAux(_, 0).*/
 
 
+displayHeaderStart(N, N):-
+  printLineDivision, put_code(9559), nl.
+
+displayHeaderStart(0, N):-
+  write('      '), put_code(9556),
+  displayHeaderStart(1, N).
+
+displayHeaderStart(N,Nmax):-
+  printLineDivision, put_code(9574),
+  NewN is N+1,
+  displayHeaderStart(NewN, Nmax).
+
+displayHeaderMiddle(N, N):-
+  Letter is 64 + N,
+  write('  '), put_code(Letter), write('  '), put_code(9553), nl.
+
+displayHeaderMiddle(0, N):-
+  write(' y/x  '), put_code(9553),
+  displayHeaderMiddle(1, N).
+
+displayHeaderMiddle(N,Nmax):-
+  Letter is 64 + N,
+  write('  '), put_code(Letter), write('  '), put_code(9553),
+  NewN is N+1,
+  displayHeaderMiddle(NewN, Nmax).
+
+displayHeaderEnd(N, N):-
+  printLineDivision, put_code(9571), nl.
+
+displayHeaderEnd(0, N):-
+  put_code(9556), printLineDivision, put_code(9580),
+  displayHeaderEnd(1, N).
+
+displayHeaderEnd(N,Nmax):-
+  printLineDivision, put_code(9580),
+  NewN is N+1,
+  displayHeaderEnd(NewN, Nmax).
+
+displayHeader(Nmax):-
+  displayHeaderStart(0, Nmax),
+  displayHeaderMiddle(0, Nmax),
+  displayHeaderEnd(0, Nmax).
+
 displayGame(Board):-
-        %put_code(10122), put_code(10112), put_code(10102), put_code(9461), put_code(9312), nl,
+  length(Board, Nmax),
+  displayHeader(Nmax).
+  displayBoard(Nmax).
+  % displayBoard(),
+  % displayFooter().
+
+
+display1(Board):-
+        % put_code(10122), put_code(10112), put_code(10102), put_code(9461), put_code(9312), nl,
         write('      '), put_code(9556), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9559), nl,
         write(' y/x  '), put_code(9553), write('  A  '), put_code(9553), write('  B  '), put_code(9553), write('  C  '), put_code(9553), write('  D  '), put_code(9553), write('  E  '), put_code(9553), write('  F  '), put_code(9553), write('  G  '), put_code(9553), write('  H  '), put_code(9553), write('  I  '), put_code(9553), nl,
         put_code(9556), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
@@ -103,7 +145,6 @@ displayGame(Board):-
         getListElemAt(8, Board, Array8),
         printLine(Array8, 8, white),
         put_code(9562), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9565).
-
 printLine(Array, Value, Colour) :-
   Colour == white,
   getListElemAt(0, Array, Elem1),

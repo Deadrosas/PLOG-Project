@@ -10,6 +10,7 @@
 :- include('utils.pl').
 
 
-play:-
-    final(Board),
+init:-
+    read(Size),
+    createBoard(Board, Size, Size),
     displayGame(Board).
