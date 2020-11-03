@@ -1,3 +1,5 @@
+:- use_module(library(lists)).
+
 piece(N, white, Code):-
   Code is 10111 + N.
 
@@ -62,54 +64,87 @@ printFooter(N,Nmax):-
 displayGameAux(_, 0).*/
 
 
-displayHeaderStart(N, N):-
+displayHeaderTop(N, N):-
   printLineDivision, put_code(9559), nl.
 
-displayHeaderStart(0, N):-
+displayHeaderTop(0, N):-
   write('      '), put_code(9556),
-  displayHeaderStart(1, N).
+  displayHeaderTop(1, N).
 
-displayHeaderStart(N,Nmax):-
+displayHeaderTop(N,Nmax):-
   printLineDivision, put_code(9574),
   NewN is N+1,
-  displayHeaderStart(NewN, Nmax).
+  displayHeaderTop(NewN, Nmax).
 
-displayHeaderMiddle(N, N):-
+displayHeaderBot(N, N):-
   Letter is 64 + N,
   write('  '), put_code(Letter), write('  '), put_code(9553), nl.
 
-displayHeaderMiddle(0, N):-
+displayHeaderBot(0, N):-
   write(' y/x  '), put_code(9553),
-  displayHeaderMiddle(1, N).
+  displayHeaderBot(1, N).
 
-displayHeaderMiddle(N,Nmax):-
+displayHeaderBot(N,Nmax):-
   Letter is 64 + N,
   write('  '), put_code(Letter), write('  '), put_code(9553),
   NewN is N+1,
-  displayHeaderMiddle(NewN, Nmax).
-
-displayHeaderEnd(N, N):-
-  printLineDivision, put_code(9571), nl.
-
-displayHeaderEnd(0, N):-
-  put_code(9556), printLineDivision, put_code(9580),
-  displayHeaderEnd(1, N).
-
-displayHeaderEnd(N,Nmax):-
-  printLineDivision, put_code(9580),
-  NewN is N+1,
-  displayHeaderEnd(NewN, Nmax).
+  displayHeaderBot(NewN, Nmax).
 
 displayHeader(Nmax):-
-  displayHeaderStart(0, Nmax),
-  displayHeaderMiddle(0, Nmax),
-  displayHeaderEnd(0, Nmax).
+  displayHeaderTop(0, Nmax),
+  displayHeaderBot(0, Nmax).
+displayRowTop(N, N):-
+  printLineDivision, put_code(9571), nl.
+
+displayRowTop(0, N):-
+  put_code(9556), printLineDivision, put_code(9580),
+  displayRowTop(1, N).
+
+displayRowTop(N,Nmax):-
+  printLineDivision, put_code(9580),
+  NewN is N+1,
+  displayRowTop(NewN, Nmax).
+
+displayRowMiddle(N, N):-
+  printLineDivision, put_code(9571), nl.
+
+displayRowMiddle(0, N):-
+  put_code(9568), printLineDivision, put_code(9580),
+  displayRowMiddle(1, N).
+
+displayRowMiddle(N,Nmax):-
+  printLineDivision, put_code(9580),
+  NewN is N+1,
+  displayRowMiddle(NewN, Nmax).
+
+displayBoard(Board, Nmax):-
+  displayRowTop(0, Nmax),
+  displayBoardAux(Board, 0, Nmax).
+
+displayBoardAux([], N, N).
+displayBoardAux([H|T], N, Nmax):-
+  displayBoardValues(H, 0, Nmax, N),
+  N1 is N + 1,
+  displayRowMiddle(0, Nmax),
+  displayBoardAux(T, N1, Nmax).
+
+displayBoardValues([], N, N, N).
+displayBoardValues([H|T], N, Nmax, RowNumber):-
+  put_code(9553), write('  '), write(RowNumber), write('  '), put_code(9553) , nl.
+  print(H),
+  N1 is N + 1,
+  displayValue(H)
+  displayBoardValues(T, N1, Nmax, RowNumber).
+
+displayValue(Elem):-
+  colour(Elem, X),
+  printCel(Elem, X).
+
 
 displayGame(Board):-
   length(Board, Nmax),
-  displayHeader(Nmax).
-  displayBoard(Nmax).
-  % displayBoard(),
+  displayHeader(Nmax),
+  displayBoard(Board, Nmax).
   % displayFooter().
 
 
@@ -186,10 +221,6 @@ printCel(empty) :-
   write('  '), /*put_code(10122),*/ write('   ').
 
 printCel(Elem, ElemColour) :-
-  %colour(Elem, ElemColour),
-  %ElemColour == black,
-  %write('HIEIIE'),
-  %write(Elem),
   piece(Elem, ElemColour, Code), 
   write('  '), put_code(Code), write(' ').
 
