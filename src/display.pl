@@ -1,5 +1,3 @@
-:- use_module(library(lists)).
-
 piece(N, white, Code):-
   Code is 10111 + N.
 
@@ -7,7 +5,6 @@ piece(N, black, Code):-
   Code is 10121 + N.
 
 colour(empty, none).
-
 colour(p1, black).
 colour(p2, black).
 colour(p3, black).
@@ -21,9 +18,7 @@ colour(b4, white).
 colour(b5, white).
 colour(b6, white).
 
-
 stack(empty, 0).
-
 stack(p1, 1).
 stack(p2, 2).
 stack(p3, 3).
@@ -139,7 +134,8 @@ displayGame(Board):-
   displayHeader(Nmax),
   displayBoard(Board, Nmax).
 
-printCel(empty) :- 
+printCel(Elem, _) :-
+  Elem == 00,
   write('     ').
 
 printCel(Elem, ElemColour) :-

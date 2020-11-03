@@ -4,7 +4,7 @@ initial([
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
+  [p1, p1, p1, p1, empty, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
@@ -45,7 +45,7 @@ createBoard([H|T], N, Total):-
   createBoard(T, N1, Total).
 
 createRow([],0).
-createRow([p1|Row],N):-
+createRow([b1|Row],N):-
   N > 0,
   N1 is N-1,
   createRow(Row,N1).
