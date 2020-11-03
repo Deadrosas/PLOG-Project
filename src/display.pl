@@ -18,7 +18,7 @@ colour(b1, white).
 colour(b2, white).
 colour(b3, white).
 colour(b4, white).
-colour(b3, white).
+colour(b5, white).
 colour(b6, white).
 
 
@@ -139,41 +139,6 @@ displayGame(Board):-
   length(Board, Nmax),
   displayHeader(Nmax),
   displayBoard(Board, Nmax).
-  % displayFooter().
-
-
-display1(Board):-
-        % put_code(10122), put_code(10112), put_code(10102), put_code(9461), put_code(9312), nl,
-        write('      '), put_code(9556), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9574), printLineDivision, put_code(9559), nl,
-        write(' y/x  '), put_code(9553), write('  A  '), put_code(9553), write('  B  '), put_code(9553), write('  C  '), put_code(9553), write('  D  '), put_code(9553), write('  E  '), put_code(9553), write('  F  '), put_code(9553), write('  G  '), put_code(9553), write('  H  '), put_code(9553), write('  I  '), put_code(9553), nl,
-        put_code(9556), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(0, Board, Array0),
-        printLine(Array0, 0, white),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(1, Board, Array1),
-        printLine(Array1, 1, white),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(2, Board, Array2),
-        printLine(Array2, 2, black),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(3, Board, Array3),
-        printLine(Array3, 3, black),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(4, Board, Array4),
-        printLine(Array4, 4, white),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(5, Board, Array5),
-        printLine(Array5, 5, black),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(6, Board, Array6),
-        printLine(Array6, 6, black),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(7, Board, Array7),
-        printLine(Array7, 7, black),
-        put_code(9568), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9580), printLineDivision, put_code(9571), nl,
-        getListElemAt(8, Board, Array8),
-        printLine(Array8, 8, white),
-        put_code(9562), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9577), printLineDivision, put_code(9565).
 
 printCel(empty) :- 
   write('     ').
@@ -182,4 +147,5 @@ printCel(Elem, ElemColour) :-
   piece(Elem, ElemColour, Code), 
   write('  '), put_code(Code), write(' ').
 
-printLineDivision :-  put_code(9552), put_code(9552), put_code(9552), put_code(9552), put_code(9552).
+printLineDivision :-  
+  put_code(9552), put_code(9552), put_code(9552), put_code(9552), put_code(9552).
