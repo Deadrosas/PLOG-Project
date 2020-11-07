@@ -1,6 +1,6 @@
 /*O tabuleiro 9*9*/
 initial([
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
+  [b1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
@@ -24,7 +24,7 @@ mid([
   ]).
 
 final([
-  [b2, p1, p3, p1, b2, p1, b4, p1, p1],
+  [b4, p1, p3, p1, b2, p1, b4, p1, p1],
   [p1, p1, b4, b2, b4, p1, b2, p3, p1],
   [b2, b2, b2, b4, p1, p3, p1, b2, b2],
   [p1, p3, p1, p1, p3, p1, b2, p1, p1],

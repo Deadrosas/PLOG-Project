@@ -4,33 +4,6 @@ piece(N, white, Code):-
 piece(N, black, Code):-
   Code is 10121 + N.
 
-colour(empty, none).
-colour(p1, black).
-colour(p2, black).
-colour(p3, black).
-colour(p4, black).
-colour(p5, black).
-colour(p6, black).
-colour(b1, white).
-colour(b2, white).
-colour(b3, white).
-colour(b4, white).
-colour(b5, white).
-colour(b6, white).
-
-stack(empty, 0).
-stack(p1, 1).
-stack(p2, 2).
-stack(p3, 3).
-stack(p4, 4).
-stack(p5, 5).
-stack(p6, 6).
-stack(b1, 1).
-stack(b2, 2).
-stack(b3, 3).
-stack(b4, 4).
-stack(b5, 5).
-stack(b6, 6).
 
 displayHeaderTop(N, N):-
   printLineDivision, put_code(9559), nl.
@@ -124,7 +97,7 @@ displayRowValues([H|T], N, Nmax):-
   displayRowValues(T, N1, Nmax).
 
 displayValue(Elem):-
-  colour(Elem, X),
+  color(Elem, X),
   stack(Elem, Y),
   printCel(Y, X).
 
@@ -138,8 +111,8 @@ printCel(Elem, _) :-
   Elem == 00,
   write('     ').
 
-printCel(Elem, ElemColour) :-
-  piece(Elem, ElemColour, Code), 
+printCel(Elem, Elemcolor) :-
+  piece(Elem, Elemcolor, Code), 
   write('  '), put_code(Code), write(' ').
 
 printLineDivision :-  
