@@ -101,11 +101,17 @@ displayValue(Elem):-
   stack(Elem, Y),
   printCel(Y, X).
 
-
 displayGame(Board):-
   length(Board, Nmax),
   displayHeader(Nmax),
   displayBoard(Board, Nmax).
+
+displayHand([]).
+displayHand([H|T]):-
+  stack(H, Num),
+  color(H, Color),
+  printCel(Num, Color),
+  displayHand(T).
 
 printCel(Elem, _) :-
   Elem == 00,

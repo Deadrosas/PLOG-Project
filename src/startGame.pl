@@ -1,4 +1,4 @@
-/*O tabuleiro 9*9*/
+% Tabuleiros 9*9 exemplos
 initial([
   [b1, p1, p1, p1, p1, p1, p1, p1, p1],
   [p1, p1, p1, p1, p1, p1, p1, p1, p1],
@@ -34,18 +34,42 @@ final([
   [b4, b2, b2, p1, b2, p1, p3, p1, p1],
   [p1, p1, p3, b2, p1, p3, p1, b2, b4]
   ]).
+% ------------------------------
+
+createWhiteHand([], 0).
+createWhiteHand([b1|T], N):-
+  N1 is N - 1,
+  createWhiteHand(T, N1).
+
+createBlackHand([], 0).
+createBlackHand([p1|T], N):-
+  N1 is N - 1,
+  createBlackHand(T, N1).
 
 
-createBoard([], 0, _).
-createBoard([H|T], N, Total):-
+createBoard([], 0, _, _).
+createBoard([H|T], N, Total, 0):-
   N > 0,
   N1 is N-1,
   NT is Total,
-  createRow(H, NT),
-  createBoard(T, N1, Total).
+  createRow(H, NT, 0),
+  createBoard(T, N1, Total, 1).
 
-createRow([],0).
-createRow([b1|Row],N):-
+
+createBoard([H|T], N, Total, 1):-
   N > 0,
   N1 is N-1,
-  createRow(Row,N1).
+  NT is Total,
+  createRow(H, NT, 1),
+  createBoard(T, N1, Total, 0).
+
+createRow([], 0, _).
+createRow([b1|Row], N, 0):-
+  N > 0,
+  N1 is N-1,
+  createRow(Row, N1, 1).
+
+createRow([p1|Row], N, 1):-
+  N > 0,
+  N1 is N-1,
+  createRow(Row, N1, 0).
