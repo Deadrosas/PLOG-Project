@@ -15,10 +15,8 @@ replaceAll(O, R, [H|T], [H|T2]) :- dif(H,O), replaceAll(O, R, T, T2).
 
 % Replace an element at a specified index for another
 replaceOne(_, _, _, [], []).
-
 replaceOne(ElemToReplace, NewElem, 0, [_|T], [NewElem|T2]):-
   replaceOne(ElemToReplace, NewElem, -1, T, T2).
-
 replaceOne(ElemToReplace, NewElem, Index, [H|T], [H|T2]):-
   dif(Index, 0),
   NewIndex is Index - 1,

@@ -3,7 +3,11 @@
 :- include('declarations.pl').
 :- use_module(library(between)).
 
-
+readPlay(Board, Turn, NewBoard):-
+    %verify if move list is not empty and ask to play
+    write('\nInsira "pass" para passar a jogada ou "play" para fazer uma jogada.'),
+    read(_), !,
+    readMove(Board, Turn, NewBoard).
 
 
 readMove(Board, Turn, NewBoard):-
@@ -22,20 +26,33 @@ readMove(Board, Turn, NewBoard):-
     processCollumn(ToCollumn, ToCollumnNumber),
 
     Move = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
-    print(Move), print('\n'),
+    print(Move), print('\n'), !,
     valid_move(Board, Turn, Move),
     valid_moves(Board, Turn, ListOfValidMoves),
     print(ListOfValidMoves), print('\n'),
 
+    
     move(Board, Move, NewBoard).
 
 
+check_valid_move(Board, Turn, Move):-
+    valid_move(Board, Turn, Move),
+    write('\nInsira a linha de onde mover: '),
+    read(FromRow),
+    write('\nInsira a Coluna de onde mover: '),
+    read(FromCollumn),
+    write('\nInsira a linha para onde vai mover: '),
+    read(ToRow),
+    write('\nInsira a Coluna para onde vai mover: '),
+    read(ToCollumn),
+    NewMove = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
+    check_valid_move(Board, Turn, NewMove).
 
 
 move(Board, Move, NewBoard):-
     executeMove(Board, Move, NewBoard).
+    %calcScore(NewBoard, 0).
 
-    
 
 executeMove(Board, [FromRow, FromCollumn, ToRow, ToCollumn], NewBoard):-
 
@@ -86,16 +103,12 @@ valid_move(Board, Player, [X1,Y1,X2,Y2]):-
     X1>=0, Y1>=0, X2>=0,  Y2>=0,
     X1=< RealL, Y1=< RealL, X2=< RealL,  Y2=< RealL,
     getElementFromBoard(Board, X1, Y1, Elem1),
-    print('Valid\n'),
-    getElementFromBoard(Board, X2, Y2, Elem2),
-    print('Valid\n'),
+    getElementFromBoard(Board, X2, Y2, Elem2), !,
     checkPlayer(Player, Elem1, Elem2),
-    checkDistance([X1,Y1,X2,Y2]),
-    print('Valid\n').
+    checkDistance([X1,Y1,X2,Y2]).
 
 
 checkDistance([X,Y1,X,Y2]):-
-    print([X,Y1,X,Y2]),
     abs(Y1 - Y2) =:= 1,
     !.
 
@@ -128,82 +141,52 @@ checkPlayer(1, Elem1, Elem2):-
     Num1 == Num2,
     !.
 
-
 valid_moves(Board, Player, ListOfValidMoves):-
     length(Board, LT),
     L is LT - 1,
-    between(0, L, X1), between(0, L, Y1), between(0, L, X2), between(0, L, Y2),
-    bagof([X1,Y1,X2,Y2], valid_move(Board, Player, [X1,Y1,X2,Y2]), ListOfValidMoves).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-getValidMoves([], Player, ListOfValidMoves).
-getvalidMoves([H|T], Player, ListOfValidMoves):-
-    % Para cada peça do 'Player' verificar os moves validos e adicionar a lista
-    % adicionar um tipo de valor a cada jogada para o computador decidir que jogada fazer pode ser com outra lista ou no inicio da lista que representa um move valido.
-    % calcular caso uma jogada aconteça o valor total da board do jogador
-    getValidHorizontalValidMoves(H, Player, ListOfValidMoves),
-    getValidVerticalMoves(H, T, Player, ListOfValidMoves),
-    getValidMoves(T, Player, ListOfValidMoves).
-
-getValidHorizontalValidMoves[H|[]], Player, ListOfValidMoves).
-
-getValidHorizontalValidMoves([H,H1|T], Player, ListOfValidMoves):-
-    color(H, HColor),
-    stack(H, HNumber),
-    color(H1, H1Color),
-    stack(H1, H1Number),
-    dif(HColor, H1Color),
-    HNumber == H1Number,
-    getValidHorizontalValidMoves([H1,T], Player, [Move| ListOfValidMoves]).
-
-
-
-
-calcScore(Board, Player).
-    % A função de valor vai ser dada pela soma de peças adjacentes (ortogonalmente)
-    /* p1 p2 b3
-       p2 b2 b4
-       p2 p1 p1 
-
-    p1 + p2 + p2 + p2 + p1 = 8
-    b3 + b4 + b2 = 9
-    */
-
     
+    findall([X1,Y1,X2,Y2], 
+    (between(0, L, X1), between(0, L, Y1), between(0, L, X2), between(0, L, Y2),
+    valid_move(Board, Player, [X1,Y1,X2,Y2])), 
+    ListOfValidMoves).
 
 
 
+d_path_aux(From, To, L, LAux):-
+	\+member(From, LAux),
+	ligado(From,X),
+	append(LAux, [From], LNewAux),
+	d_path_aux(X, To, L, LNewAux).
+
+d_path_aux(To, To, L, LAux):-
+	append(LAux, [To], L).
+	
+d_path(Start, End, L):-
+	d_path_aux(Start, End, L, []).
+
+calc_score_aux(Board, Player).
+
+
+
+
+iterateRow([], _, L, L).
+iterateRow([ Elem| T ], Player, StartPoints, L):-
+    %check if in already part of a path list
+    %skip if it is if its not start a new path
+    \+member(Elem, StartPoints),
+    iterateRow(T, Player).
+
+
+iterateBoard([], _, P).
+iterateBoard([ Row | T ], Player, StartPoints):-
+    iterateRow(Row, Player, StartPoints, NewStartPoints),
+    write('\n'),
+    iterateBoard(T, Player, NewStartPoints).
+
+
+calcScore(Board, Player):-
+    write(Board), write('\n'),
+    iterateBoard(Board ,Player, []).
 
 
 

@@ -1,14 +1,18 @@
 % Tabuleiros 9*9 exemplos
+test([
+  [b1, p1],
+  [p1, b1]]).
+
 initial([
-  [b1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, empty, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1],
-  [p1, p1, p1, p1, p1, p1, p1, p1, p1]
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1]
   ]).
 
 mid([

@@ -20,9 +20,8 @@ play:-
     Turn is 0,
     mainLoop(Board, Turn, 5),
     print('Finished execution correctly.').
-    
 
-mainLoop(_, _, 0):-displayGame(Board).
+mainLoop(Board, _, 0):-displayGame(Board).
 
 mainLoop(Board, Turn, N):-
     N1 is N - 1,
@@ -30,5 +29,5 @@ mainLoop(Board, Turn, N):-
     NextTurn is Temp mod 2,
     
     displayGame(Board),
-    readMove(Board, Turn, NewBoard),
+    readPlay(Board, Turn, NewBoard),
     mainLoop(NewBoard, NextTurn, N1).
