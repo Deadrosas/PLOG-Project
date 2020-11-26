@@ -1,5 +1,6 @@
 % includes
 :- include('utils.pl').
+:- include('calculateScore.pl').
 :- include('declarations.pl').
 :- use_module(library(between)).
 
@@ -165,30 +166,6 @@ d_path(Start, End, L):-
 	d_path_aux(Start, End, L, []).
 
 calc_score_aux(Board, Player).
-
-
-
-
-iterateRow([], _, L, L).
-iterateRow([ Elem| T ], Player, StartPoints, L):-
-    %check if in already part of a path list
-    %skip if it is if its not start a new path
-    \+member(Elem, StartPoints),
-    iterateRow(T, Player).
-
-
-iterateBoard([], _, P).
-iterateBoard([ Row | T ], Player, StartPoints):-
-    iterateRow(Row, Player, StartPoints, NewStartPoints),
-    write('\n'),
-    iterateBoard(T, Player, NewStartPoints).
-
-
-calcScore(Board, Player):-
-    write(Board), write('\n'),
-    iterateBoard(Board ,Player, []).
-
-
 
 
 
