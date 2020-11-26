@@ -4,16 +4,18 @@
 :- include('startGame.pl').
 
 :- include('move.pl').
-:- include('claimPiece.pl').
+%:- include('claimPiece.pl').
 
 :- include('display.pl').
 
 :- include('utils.pl').
 
+:- include('Menu.pl').
+
 
 play:-
-    print('Insira o Tamanho do Board: '), % números > 10 desformatam o board é preciso dar fix
-    read(Size),
+    display_game_name,
+    select_mode(GameMode,CPU1,CPU2,Size),
     createBoard(Board, Size, Size, 0),
     createBlackHand(BlackHand, Size),
     createWhiteHand(WhiteHand, Size),

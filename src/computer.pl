@@ -1,4 +1,4 @@
-:- include('move.pl').
+/*:- include('move.pl').
 
 randomBot(Board, ValidMoves, BotNumber):-
     executeRandomMove(ValidMoves, RandomMove),
@@ -9,4 +9,4 @@ randomBot(Board, ValidMoves, BotNumber):-
 
 smartBot():-
     tryAllPossibleMoves(ValidMoves, BestMove),
-    executeMove(BestMove).
+    executeMove(BestMove).*/
