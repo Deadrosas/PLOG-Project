@@ -51,8 +51,11 @@ check_valid_move(Board, Turn, Move):-
 
 
 move(Board, Move, NewBoard):-
-    executeMove(Board, Move, NewBoard).
-    %calcScore(NewBoard, 0).
+    calcScore(Board, 0),
+    write('AAAA'),
+    executeMove(Board, Move, NewBoard),
+    write('BBBB'),
+    calcScore(NewBoard, 0).
 
 
 executeMove(Board, [FromRow, FromCollumn, ToRow, ToCollumn], NewBoard):-
