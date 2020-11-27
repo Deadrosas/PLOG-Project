@@ -21,3 +21,6 @@ replaceOne(ElemToReplace, NewElem, Index, [H|T], [H|T2]):-
   dif(Index, 0),
   NewIndex is Index - 1,
   replaceOne(ElemToReplace, NewElem, NewIndex, T, T2).
+
+
+pop([_|T], T).

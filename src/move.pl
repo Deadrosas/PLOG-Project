@@ -1,5 +1,6 @@
 % includes
 :- include('utils.pl').
+:- include('calculateScore.pl').
 :- include('declarations.pl').
 :- use_module(library(between)).
 
@@ -25,33 +26,19 @@ readMove(Board, Turn, NewBoard):-
     processCollumn(FromCollumn, FromCollumnNumber),
     processCollumn(ToCollumn, ToCollumnNumber),
 
-    Move = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
-    print(Move), print('\n'), !,
-    valid_move(Board, Turn, Move),
+    Coords = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
+    Move = [Turn, FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
+    valid_move(Board, Turn, Coords),
     valid_moves(Board, Turn, ListOfValidMoves),
     print(ListOfValidMoves), print('\n'),
-
     
     move(Board, Move, NewBoard).
 
 
-check_valid_move(Board, Turn, Move):-
-    valid_move(Board, Turn, Move),
-    write('\nInsira a linha de onde mover: '),
-    read(FromRow),
-    write('\nInsira a Coluna de onde mover: '),
-    read(FromCollumn),
-    write('\nInsira a linha para onde vai mover: '),
-    read(ToRow),
-    write('\nInsira a Coluna para onde vai mover: '),
-    read(ToCollumn),
-    NewMove = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
-    check_valid_move(Board, Turn, NewMove).
-
-
 move(Board, Move, NewBoard):-
-    executeMove(Board, Move, NewBoard).
-    %calcScore(NewBoard, 0).
+    [Player, X1, Y1, X2, Y2] = Move,
+    executeMove(Board, [X1, Y1, X2, Y2], NewBoard),
+    calcScore(NewBoard, Player).
 
 
 executeMove(Board, [FromRow, FromCollumn, ToRow, ToCollumn], NewBoard):-
@@ -165,30 +152,6 @@ d_path(Start, End, L):-
 	d_path_aux(Start, End, L, []).
 
 calc_score_aux(Board, Player).
-
-
-
-
-iterateRow([], _, L, L).
-iterateRow([ Elem| T ], Player, StartPoints, L):-
-    %check if in already part of a path list
-    %skip if it is if its not start a new path
-    \+member(Elem, StartPoints),
-    iterateRow(T, Player).
-
-
-iterateBoard([], _, P).
-iterateBoard([ Row | T ], Player, StartPoints):-
-    iterateRow(Row, Player, StartPoints, NewStartPoints),
-    write('\n'),
-    iterateBoard(T, Player, NewStartPoints).
-
-
-calcScore(Board, Player):-
-    write(Board), write('\n'),
-    iterateBoard(Board ,Player, []).
-
-
 
 
 

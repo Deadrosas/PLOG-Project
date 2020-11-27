@@ -4,7 +4,6 @@
 :- include('startGame.pl').
 
 :- include('move.pl').
-%:- include('claimPiece.pl').
 
 :- include('display.pl').
 
@@ -30,6 +29,6 @@ mainLoop(Board, Turn, N):-
     Temp is Turn + 1,
     NextTurn is Temp mod 2,
     
-    displayGame(Board),
+    displayGame(Board), !,
     readPlay(Board, Turn, NewBoard),
     mainLoop(NewBoard, NextTurn, N1).
