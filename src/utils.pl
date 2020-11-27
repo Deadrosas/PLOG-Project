@@ -23,5 +23,4 @@ replaceOne(ElemToReplace, NewElem, Index, [H|T], [H|T2]):-
   replaceOne(ElemToReplace, NewElem, NewIndex, T, T2).
 
 
-
-pop([H|T], T).
+pop([_|T], T).
