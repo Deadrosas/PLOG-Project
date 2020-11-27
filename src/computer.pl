@@ -5,6 +5,6 @@ randomBot(Board, ValidMoves, BotNumber):-
     executeMove(RandomMove).
 
 
-smartBot():-
+smartBot:-
     tryAllPossibleMoves(ValidMoves, BestMove),
     executeMove(BestMove).

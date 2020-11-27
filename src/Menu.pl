@@ -77,8 +77,11 @@ S:::::::::::::::SS            W:::W           W:::WA:::::A                 A::::
 ███████║╚███╔███╔╝██║  ██║╚██████╗██║  ██╗*/
 
 select_mode(GameMode,Level1,Level2,Size):-
-    print('Insira o Tamanho do Board: '), % números > 10 desformatam o board é preciso dar fix
-    read(Size), nl,nl,
+    print('Insira o Tamanho do Board: '),
+    read(Sizet), nl,nl,
+    (Sizet > 10, !,
+    Size = 10;
+    Size = Sizet),
     write('1 - Player vs Player'), nl,
     write('2 - Player vs Computer'), nl,
     write('3 - Computer vs Computer'), nl,
