@@ -7,7 +7,7 @@
 
 %All Points Exist
 createPath(Board, RowNumber, CollumnNumber, Path, _, 0, Path):-
-    getElementFromBoard(Board, RowNumber, CollumnNumber, Elem), color(Elem, white).
+    getElementFromBoard(Board, RowNumber, CollumnNumber, Elem), color(Elem, white), !.
 createPath(Board, RowNumber, CollumnNumber, Path, _, 0, Path):-
     getElementFromBoard(Board, RowNumber, CollumnNumber, Elem),
     color(Elem, black),
@@ -20,21 +20,21 @@ createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 0, NewPath):
     color(Elem, black),
 
     Point = [Elem, RowNumber, CollumnNumber],
-    \+member(Point, CurrentPath),
+    \+member(Point, CurrentPath), !,
     append(CurrentPath, [Point], Path0),
     UpY is RowNumber - 1,
     RightX is CollumnNumber + 1,
     LeftX is CollumnNumber - 1,
     DownY is RowNumber + 1,
 
-    getUpPath(Board, UpY, CollumnNumber, Path0, BoardSize, 0, Path1),
-    getLeftPath(Board, RowNumber, LeftX, Path1, BoardSize, 0, Path2),
-    getRightPath(Board, RowNumber, RightX, Path2, BoardSize, 0, Path3),
-    getDownPath(Board, DownY, CollumnNumber, Path3, BoardSize, 0, NewPath).
+    getUpPath(Board, UpY, CollumnNumber, Path0, BoardSize, 0, Path1), !,
+    getLeftPath(Board, RowNumber, LeftX, Path1, BoardSize, 0, Path2), !, 
+    getRightPath(Board, RowNumber, RightX, Path2, BoardSize, 0, Path3), !,
+    getDownPath(Board, DownY, CollumnNumber, Path3, BoardSize, 0, NewPath), !.
 
 % Case of White Player
 createPath(Board, RowNumber, CollumnNumber, Path, _, 1, Path):- 
-    getElementFromBoard(Board, RowNumber, CollumnNumber, Elem), color(Elem, black).
+    getElementFromBoard(Board, RowNumber, CollumnNumber, Elem), color(Elem, black), !.
 
 createPath(Board, RowNumber, CollumnNumber, Path, _, 1, Path):-
     getElementFromBoard(Board, RowNumber, CollumnNumber, Elem),
@@ -48,17 +48,17 @@ createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 1, NewPath):
     color(Elem, white),
 
     Point = [Elem, RowNumber, CollumnNumber],
-    \+member(Point, CurrentPath),
+    \+member(Point, CurrentPath), !,
     append(CurrentPath, [Point], Path0),
     UpY is RowNumber - 1,
     RightX is CollumnNumber + 1,
     LeftX is CollumnNumber - 1,
     DownY is RowNumber + 1,
 
-    getUpPath(Board, UpY, CollumnNumber, Path0, BoardSize, 1, Path1),
-    getLeftPath(Board, RowNumber, LeftX, Path1, BoardSize, 1, Path2),
-    getRightPath(Board, RowNumber, RightX, Path2, BoardSize, 1, Path3),
-    getDownPath(Board, DownY, CollumnNumber, Path3, BoardSize, 1, NewPath).
+    getUpPath(Board, UpY, CollumnNumber, Path0, BoardSize, 1, Path1), !,
+    getLeftPath(Board, RowNumber, LeftX, Path1, BoardSize, 1, Path2), !,
+    getRightPath(Board, RowNumber, RightX, Path2, BoardSize, 1, Path3), !,
+    getDownPath(Board, DownY, CollumnNumber, Path3, BoardSize, 1, NewPath), !.
 
 
 getUpPath(Board, RowNumber, CollumnNumber, Path, _, Player, Path):-RowNumber < 0, !.

@@ -31,7 +31,7 @@ readMove(Board, Turn, NewBoard):-
     valid_move(Board, Turn, Coords),
     valid_moves(Board, Turn, ListOfValidMoves),
     print(ListOfValidMoves), print('\n'),
-
+    
     move(Board, Move, NewBoard).
 
 
