@@ -77,27 +77,36 @@ S:::::::::::::::SS            W:::W           W:::WA:::::A                 A::::
 ███████║╚███╔███╔╝██║  ██║╚██████╗██║  ██╗*/
 
 select_mode(GameMode,Level1,Level2,Size):-
-    print('Insira o Tamanho do Board: '),
-    read(Sizet), nl,nl,
-    (Sizet > 10, !,
-    Size = 10;
-    Size = Sizet),
-    write('1 - Player vs Player'), nl,
-    write('2 - Player vs Computer'), nl,
-    write('3 - Computer vs Computer'), nl,
-    read(GameMode),
-    ((GameMode == 1,
-    Level1 is 0,
-    Level2 is 0);
-    (GameMode == 2,
-    choose_ai_level(Level1),
-    Level2 is 0);
-    (GameMode == 3,
-    choose_ai_level(Level1),
-    choose_ai_level(Level2))),
-    nl.
+  print('Insira o Tamanho do Board: '),
+  read(Sizet), nl,nl,
+  (Sizet > 10, !,
+  Size = 10;
+  Size = Sizet),
+  write('1 - Player vs Player'), nl,
+  write('2 - Player vs Computer'), nl,
+  write('3 - Computer vs Computer'), nl,
+  read(GameMode),
+  ((GameMode == 1,
+  Level1 is 0,
+  Level2 is 0);
+  (GameMode == 2,
+  choose_ai_level(Level1),
+  Level2 is 0);
+  (GameMode == 3,
+  choose_ai_level(Level1),
+  choose_ai_level(Level2))),
+  nl.
+
 
 choose_ai_level(Level):-
-    write('Choose Ai Level from 1 to 3: '),
-    read(Level),
-    nl.
+  write('Choose Ai Level from 1 to 2: '),
+  read(L),
+  valid_ai(L, Level),
+  nl.
+
+valid_ai(Level, Level):-
+  Level > 0,
+  Level < 3, !.
+
+valid_ai(_, Level):- choose_ai_level(Level).
+

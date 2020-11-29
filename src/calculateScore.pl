@@ -1,6 +1,3 @@
-:- include('utils.pl').
-:- include('declarations.pl').
-
 % Point = [Elem, X, Y], X = Row Y = Collumn
 % Path = List of Points [[Elem1, X1,Y1],[Elem2, X2,Y2]]
 % List of Paths is a List of Lists that contain points (which are lists too) ([[[Elem1, X1,Y1],[Elem2, X2,Y2]], [[Elem3, X3,Y3], [Elem4, X3, Y4]]])
@@ -114,10 +111,8 @@ calculateMaxValuePath([Path|T], Value):-
     V > Value1, !,
     Value = V.
 
-calcScore(Board, Player):-
+value(Board, Player, Value):-
     length(Board, Size),
     S is Size - 1,
     getAllPaths(Board, S, Board, 0, Player, [], Paths),
-    calculateMaxValuePath(Paths, Value),
-    write(Paths), write('\n'),
-    write(Value), write('\n').
+    calculateMaxValuePath(Paths, Value).

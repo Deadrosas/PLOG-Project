@@ -1,44 +1,96 @@
 % includes
-:- include('utils.pl').
-:- include('calculateScore.pl').
-:- include('declarations.pl').
+:- include('computer.pl').
 :- use_module(library(between)).
+
+
+nextMove(Board, 0, [0, 0], NewBoard):-
+    readPlay(Board, 0, NewBoard).
+
+nextMove(Board, 1, [0, 0], NewBoard):-
+    readPlay(Board, 1, NewBoard).
+
+nextMove(Board, 0, [1, 0], NewBoard):-
+    readPlay(Board, 0, NewBoard).
+
+nextMove(Board, 1, [1, 0], NewBoard):-
+    randomBot(Board, 1, NewBoard).
+
+nextMove(Board, 0, [2, 0], NewBoard):-
+    readPlay(Board, 0, NewBoard).
+
+nextMove(Board, 1, [2, 0], NewBoard):-
+    smartBot(Board, 1, NewBoard).
+
+nextMove(Board, 0, [1, 1], NewBoard):-
+    randomBot(Board, 0, NewBoard).
+
+nextMove(Board, 1, [_, 1], NewBoard):-
+    randomBot(Board, 1, NewBoard).
+
+nextMove(Board, 0, [2, N], NewBoard):-
+    dif(N,0),
+    smartBot(Board, 0, NewBoard).
+
+nextMove(Board, 1, [_, 2], NewBoard):-
+    smartBot(Board, 1, NewBoard).
+
+decidePlay(Var, Board, Turn, NewBoard):-
+    Var \= 'play',
+    Var \= 'pass',
+    readPlay(Board,Turn, NewBoard).
+
+decidePlay(Var, Board, Turn, NewBoard):-
+    Var == 'play',
+    readMove(Board, Turn, NewBoard).
+
+decidePlay(Var, Board, Turn, Board):-
+    Var == 'pass'.
 
 readPlay(Board, Turn, NewBoard):-
     %verify if move list is not empty and ask to play
-    write('\nInsira "pass" para passar a jogada ou "play" para fazer uma jogada.'),
-    read(_), !,
-    readMove(Board, Turn, NewBoard).
+    nl,
+    format('Jogador ~w insira "pass" para passar a jogada ou "play" para fazer uma jogada.', Turn),
+    read(Var),
+    decidePlay(Var, Board, Turn, NewBoard).
+
+validate_inputs(Board, Turn, M, M):-
+    valid_move(Board, Turn, M), !.
+
+validate_inputs(Board, Turn, M, _):-
+    write('Por favor faca uma jogada valida...'), nl,
+    readInputs(Board, Turn, M).
 
 
-readMove(Board, Turn, NewBoard):-
-
-    write('\nInsira a linha de onde mover: '),
+readInputs(Board, Turn, [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber]):-
+    write('Insira a linha de onde mover: '),
     read(FromRow),
-    write('\nInsira a Coluna de onde mover: '),
+    write('Insira a Coluna de onde mover: '),
     read(FromCollumn),
-    write('\nInsira a linha para onde vai mover: '),
+    write('Insira a linha para onde vai mover: '),
     read(ToRow),
-    write('\nInsira a Coluna para onde vai mover: '),
+    write('Insira a Coluna para onde vai mover: '),
     read(ToCollumn),
 
     %Process both collumns 
     processCollumn(FromCollumn, FromCollumnNumber),
     processCollumn(ToCollumn, ToCollumnNumber),
 
-    Coords = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
+    M1 = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
+    validate_inputs(Board, Turn, M1, M).
+
+
+readMove(Board, Turn, NewBoard):-
+    !,
+    readInputs(Board, Turn, M),
+    [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber] = M,
+
     Move = [Turn, FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
-    valid_move(Board, Turn, Coords),
-    valid_moves(Board, Turn, ListOfValidMoves),
-    print(ListOfValidMoves), print('\n'),
     
     move(Board, Move, NewBoard).
 
-
 move(Board, Move, NewBoard):-
-    [Player, X1, Y1, X2, Y2] = Move,
-    executeMove(Board, [X1, Y1, X2, Y2], NewBoard),
-    calcScore(NewBoard, Player).
+    [_, X1, Y1, X2, Y2] = Move,
+    executeMove(Board, [X1, Y1, X2, Y2], NewBoard).
 
 
 executeMove(Board, [FromRow, FromCollumn, ToRow, ToCollumn], NewBoard):-
@@ -57,155 +109,3 @@ executeMove(Board, [FromRow, FromCollumn, ToRow, ToCollumn], NewBoard):-
 
     ToPieceNumber is PieceNumber + 1,
     replaceElement(TempBoard, NewBoard, ToPieceColor, ToPieceNumber, Elem2, ToCollumn, ToRow).
-
-
-
-
-replaceElement(Board, NewBoard, white, PieceNumber, ElementToBeReplaced, CollumnNumber, RowNumber):-
-    
-    color(ToPiece, black),
-    stack(ToPiece, PieceNumber),
-
-    X is RowNumber + 1,
-    nth1(X, Board, Row),
-
-    replaceOne(ElementToBeReplaced, ToPiece, CollumnNumber, Row, ToRow),
-    replaceOne(Row, ToRow, RowNumber, Board, NewBoard).
-
-
-replaceElement(Board, NewBoard, black, PieceNumber, ElementToBeReplaced, CollumnNumber, RowNumber):-
-    color(ToPiece, white),
-    stack(ToPiece, PieceNumber),
-
-    X is RowNumber + 1,
-    nth1(X, Board, Row),
-
-    replaceOne(ElementToBeReplaced, ToPiece, CollumnNumber, Row, ToRow),
-    replaceOne(Row, ToRow, RowNumber, Board, NewBoard).
-
-
-valid_move(Board, Player, [X1,Y1,X2,Y2]):-
-    length(Board, L),
-    RealL is L - 1,
-    X1>=0, Y1>=0, X2>=0,  Y2>=0,
-    X1=< RealL, Y1=< RealL, X2=< RealL,  Y2=< RealL,
-    getElementFromBoard(Board, X1, Y1, Elem1),
-    getElementFromBoard(Board, X2, Y2, Elem2), !,
-    checkPlayer(Player, Elem1, Elem2),
-    checkDistance([X1,Y1,X2,Y2]).
-
-
-checkDistance([X,Y1,X,Y2]):-
-    abs(Y1 - Y2) =:= 1,
-    !.
-
-checkDistance([X1,Y,X2,Y]):-
-    abs(X1 - X2) =:= 1,
-    !.
-
-
-checkPlayer(0, Elem1, Elem2):-
-    color(Elem1, Color1),
-    color(Elem2, Color2),
-
-    Color1 == black,
-    dif(Color1, Color2),
-    
-    stack(Elem1, Num1),
-    stack(Elem2, Num2),
-    Num1 == Num2,
-    !.
-
-checkPlayer(1, Elem1, Elem2):-
-    color(Elem1, Color1),
-    color(Elem2, Color2),
-
-    Color1 == white,
-    dif(Color1, Color2),
-    
-    stack(Elem1, Num1),
-    stack(Elem2, Num2),
-    Num1 == Num2,
-    !.
-
-valid_moves(Board, Player, ListOfValidMoves):-
-    length(Board, LT),
-    L is LT - 1,
-    
-    findall([X1,Y1,X2,Y2], 
-    (between(0, L, X1), between(0, L, Y1), between(0, L, X2), between(0, L, Y2),
-    valid_move(Board, Player, [X1,Y1,X2,Y2])), 
-    ListOfValidMoves).
-
-
-
-d_path_aux(From, To, L, LAux):-
-	\+member(From, LAux),
-	ligado(From,X),
-	append(LAux, [From], LNewAux),
-	d_path_aux(X, To, L, LNewAux).
-
-d_path_aux(To, To, L, LAux):-
-	append(LAux, [To], L).
-	
-d_path(Start, End, L):-
-	d_path_aux(Start, End, L, []).
-
-calc_score_aux(Board, Player).
-
-
-
-
-processCollumn('A', CollumnNumber):- CollumnNumber is 0.
-
-processCollumn('B', CollumnNumber):- CollumnNumber is 1.
-
-processCollumn('C', CollumnNumber):- CollumnNumber is 2.
-
-processCollumn('D', CollumnNumber):- CollumnNumber is 3.
-
-processCollumn('E', CollumnNumber):- CollumnNumber is 4.
-
-processCollumn('F', CollumnNumber):- CollumnNumber is 5.
-
-processCollumn('G', CollumnNumber):- CollumnNumber is 6.
-
-processCollumn('H', CollumnNumber):- CollumnNumber is 7.
-
-processCollumn('I', CollumnNumber):- CollumnNumber is 8.
-
-processCollumn('a', CollumnNumber):- CollumnNumber is 0.
-
-processCollumn('b', CollumnNumber):- CollumnNumber is 1.
-
-processCollumn('c', CollumnNumber):- CollumnNumber is 2.
-
-processCollumn('d', CollumnNumber):- CollumnNumber is 3.
-
-processCollumn('e', CollumnNumber):- CollumnNumber is 4.
-
-processCollumn('f', CollumnNumber):- CollumnNumber is 5.
-
-processCollumn('g', CollumnNumber):- CollumnNumber is 6.
-
-processCollumn('h', CollumnNumber):- CollumnNumber is 7.
-
-processCollumn('i', CollumnNumber):- CollumnNumber is 8.
-
-processCollumn(0, CollumnNumber):- CollumnNumber is 0.
-
-processCollumn(1, CollumnNumber):- CollumnNumber is 1.
-
-processCollumn(2, CollumnNumber):- CollumnNumber is 2.
-
-processCollumn(3, CollumnNumber):- CollumnNumber is 3.
-
-processCollumn(4, CollumnNumber):- CollumnNumber is 4.
-
-processCollumn(5, CollumnNumber):- CollumnNumber is 5.
-
-processCollumn(6, CollumnNumber):- CollumnNumber is 6.
-
-processCollumn(7, CollumnNumber):- CollumnNumber is 7.
-
-processCollumn(8, CollumnNumber):- CollumnNumber is 8.

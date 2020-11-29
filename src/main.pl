@@ -1,15 +1,11 @@
 % includes
-:- include('computer.pl').
-
 :- include('startGame.pl').
+
+:- include('menu.pl').
 
 :- include('move.pl').
 
 :- include('display.pl').
-
-:- include('utils.pl').
-
-:- include('Menu.pl').
 
 
 play:-
@@ -19,16 +15,42 @@ play:-
     createBlackHand(BlackHand, Size),
     createWhiteHand(WhiteHand, Size),
     Turn is 0,
-    mainLoop(Board, Turn, 5),
+    CPUS = [CPU1, CPU2],
+    mainLoop(Board, Turn, CPUS, 0),
     print('Finished execution correctly.').
 
-mainLoop(Board, _, 0):-displayGame(Board).
+game_over(Board, 0):-
+    value(Board, 0, Score0),
+    value(Board, 1, Score1),
+    Score0>Score1, !,
+    write(Score0),nl,
+    write(Score1),nl.
 
-mainLoop(Board, Turn, N):-
-    N1 is N - 1,
+game_over(Board, 1):-
+    value(Board, 0, Score0),
+    value(Board, 1, Score1),
+    Score0<Score1, !,
+    write(Score0),nl,
+    write(Score1),nl.
+
+mainLoop(Board, Turn, CPUS, 2):-
+    game_over(Board, Winner),
+    format('Player ~w is the winner! Congratulations.', Winner).
+
+mainLoop(Board, Turn, CPUS, N):-
+    dif(N,2),
     Temp is Turn + 1,
     NextTurn is Temp mod 2,
     
     displayGame(Board), !,
-    readPlay(Board, Turn, NewBoard),
-    mainLoop(NewBoard, NextTurn, N1).
+    nextMove(Board, Turn, CPUS, NewBoard),
+    checkBoardDif(Board, NewBoard, N, NewN),
+    mainLoop(NewBoard, NextTurn, CPUS, NewN).
+
+
+checkBoardDif(Board, NewBoard, N, NewN):-
+    \+dif(Board,NewBoard),
+    NewN is N + 1.
+
+checkBoardDif(Board, NewBoard, N, 0):-
+    dif(Board,NewBoard).
