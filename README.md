@@ -113,10 +113,6 @@ Y2 - Coluna para onde a peça se vai mover;
 A lista de Valid Moves é obtida através do predicado **valid_moves(+GameState, +Player, -ListOfMoves)** que realiza um findall de **[X1, Y1, X2, Y2]** 
 com as condições para fazer a jogada no predicado **validmove(+GameState, +Player, -Move)**.
 
-Exemplo de uma jogada [1, 0, 0, 0] e demonstração de uma lista de Valid Moves:
-##### Valid Moves
-![Valid Moves](https://github.com/Deadrosas/PLOG-Project/blob/main/resources/validmoves.PNG)
-
 #### Execução de Jogadas
 A jogada lida e validada anteriormente é usada no predicado **move(+GameState, +Move, -NewGameState)** e dentro do mesmo são realizados os predicados
 **executeMove(+GameState, +Move, -NewGameState)** que muda o anterior Estado de Jogo para um novo Estado de Jogo, e o predicado **calcScore(+NewGameState, +Player)**
