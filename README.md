@@ -2,8 +2,12 @@
 ## MIEIC-PLOG
 
 **Swack Grupo 5 turma.**
-João Basto do Rosário (up201806334)
+João Basto do Rosário (up201806334) 
 Jorge Levi Perdigoto da Costa (up201706518)
+
+**Contribuição**
+João Basto do Rosário 65%
+Jorge Levi Perdigoto da Costa 35%
 
 ### Como executar o código:
 1. Abrir o programa SICStus (Versão testada : 4.6.0)
@@ -123,17 +127,23 @@ Pega no valor do move ([X1, Y1, X2, Y2]) e troca o valor do Board nas coordenada
 Troca também o valor nas coordenadas X2 e Y2 para cor diferente e adiciona 1 à stack (ex: b2 passa para p3).
 
 #### Final de Jogo
-O jogo termina através do predicado **game_over(+GameState, -Winner)** que verifica se a lista de ValidMoves de cada jogador está vazia.
+O jogo termina através do predicado **game_over(+GameState, -Winner)** que verifica se a lista de ValidMoves de cada jogador está vazia ou se ambos os jogadores passaram a jogada no seu turno.
 
 #### Avaliação do Tabuleiro
-A avaliação do estado de jogo é feito através do predicado **value(+GameState, +Player, -Value)** que chama uma função que por sua vez itera todos os elementos do tabuleiro. Para cada elemento é chamada a função **createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 0, NewPath)** que recebe a posição do elemento no tabuleiro *(CollummNumber, RowNumber)*, verifica se o elemento faz parte do caminho atual de pontos do caminho e caso não faça adiciona-o a uma lista de **Point = [Elemento, CollumnNumber, RowNumber]**. De seguida a função verifica peças da mesma cor ortogonalmente adjacentes e para cada uma delas chama a função createPath. Após terem sido criados todos os caminhos a partir deste elemento, a lista de pontos é adicionada a uma lista de caminhos.
-Nessa
+A avaliação do estado de jogo é feito através do predicado **value(+GameState, +Player, -Value)** que chama uma função que por sua vez itera todos os elementos do tabuleiro. Para cada elemento é chamada o predicado **createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 0, NewPath)** que recebe a posição do elemento no tabuleiro *(CollummNumber, RowNumber)*, verifica se o elemento faz parte do caminho atual de pontos do caminho e caso não faça adiciona-o a uma lista de **Point = [Elemento, CollumnNumber, RowNumber]**. De seguida o predicado verifica peças da mesma cor ortogonalmente adjacentes e para cada uma delas chama o predicado createPath. Após terem sido criados todos os caminhos a partir deste elemento, a lista de pontos é adicionada a uma lista de caminhos.
+A seguir é calculado o score dessa lista de caminhos, somando todos os valores da stack dos elementos da lista de caminhos maior.
 
 #### Jogada do Computador
 O nosso trabalho tem dois níveis de dificuldade, um nível em que o computador é completamente aleatório e escolhe uma jogada de entre as ainda possíveis e outro, no qual o computador escolhe uma jogada baseada no quão mais alta vai ser a sua pontuação após tal jogada.
-A jogada do computador nível 1 é executada pela função **randomBot(Board, Turn, NewBoard)** que recebe o tabuleiro atual, cria uma lista de movimentos possíveis e escolhe um aleatóriamente.
-A jogada do computador nível 2 é executada pela função **smartBot(Board, Turn, NewBoard)** que tal como o random bot recebe o tabuleiro atual, cria uma lista de movimentos possíveis, calcula um tabuleiro novo para cada um desses movimentose calcula o value de cada um. O move que levar ao tabuleiro com maior valor é executada.
+A jogada do computador nível 1 é executada pelo predicado **randomBot(Board, Turn, NewBoard)** que recebe o tabuleiro atual, cria uma lista de movimentos possíveis e escolhe um aleatóriamente.
+A jogada do computador nível 2 é executada pelo predicado **smartBot(Board, Turn, NewBoard)** que tal como o random bot recebe o tabuleiro atual, cria uma lista de movimentos possíveis, calcula um tabuleiro novo para cada um desses movimentose calcula o value de cada um. O move que levar ao tabuleiro com maior valor é executada.
 
 ### Conclusões
+A principio o trabalho parecia uma tarefa impossível de ser realizada pois não entendiamos bem o funcionamento desta nova linguagem PROLOG. Isto rapidamente mudou pois quando nos habituamos ao seu funcionamento conseguimos progredir com mais fluidez. Algumas funções que noutras linguagens eram facilmente criadas aqui provaram ser um grande desafio, damos o exemplo dos predicados value e move.
+Esta cadeira também ajudou bastante na nossa aprendizagem relativamente a funções recursivas.
+Conseguimos fazer tudo o que nos foi proposto, se bem que devido ao teste ser tão próximo da entrega do trabalho algumas coisas como uma melhor verificação de inputs ficou por fazer.
+Em suma o trabalho foi um desafio extremamente interessante e ficamos bastante contentes com o resultado, tanto a nível visual pois entendemos que conseguimos criar uma excelente função de display, tanto a nível de estrutura de código, algo comprovado por exemplo pela velocidade das nossas funções.
 
-### Bibliografia
+
+### Referências
+**https://www.swi-prolog.org/**
