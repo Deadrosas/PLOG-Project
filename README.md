@@ -1,4 +1,4 @@
-# Relatório Intercalar
+# Avaliação Final
 ## MIEIC-PLOG
 
 **Swack Grupo 5 turma.**
@@ -14,7 +14,7 @@ Jorge Levi Perdigoto da Costa (up201706518)
 #### Descrição do Jogo
 
 **Swack** é um jogo de território jogado por dois jogadores, um controla as peças brancas e o outro as pretas e pode ser jogado num tabuleiro de qualquer tamanho 
-No nosso caso o tamanho máximo será `12*12` e o mínimo será `3*3`.
+No nosso caso o tamanho máximo será `10*10` e o mínimo será `3*3`.
 O Tamanho recomendado é `9*9`.
 No começo do jogo o tabuleiro esta coberto por peças pretas e brancas num padrão em xadrex (o espaço do meio está vazio caso o tabuleiro seja par). Cada jogador tem tambem peças na mão.
 
@@ -31,26 +31,25 @@ Posteriormente deve colocar uma peça do oponente em cima da stack de qual foi m
 Cada elemento do tabuleiro é um **átomo** que tem a seguinte estrutura xy, em x representa preto (p) ou branco (b) , e em que y é a altura da stack.
 
 ##### Fim
-O jogo termina quando ambos os jogadores passarem a sua jogada em seguida. O vencedor é determinado 
+O jogo termina quando ambos os jogadores passarem a sua jogada em seguida. O vencedor é determinado
+
+### Lógica do jogo
 
 #### Representação Interna do Estado de Jogo
-
-**Disclaimer** Devido a termos descoberto que o tabuleiro poderia ser de multiplas dimensões a comlexidade de representar o board aumentou significativamente pelo que no momento de entrega
-os boards usados são todos `9*9` e a função que lhes da display é 'hard coded', devido a isso, falta também identificar o tipo de cada peça nos predicados apresentados.
 
 Cada um dos estados tem um predicado que representa a atual 'board'.
 ##### Estado Inicial
 ```prolog
 initial([
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1],
+  [p1, b1, p1, b1, p1, b1, p1, b1, p1],
+  [b1, p1, b1, p1, b1, p1, b1, p1, b1]
   ]).
 ```
 
@@ -58,15 +57,15 @@ initial([
 ##### Estado Intermédio
 ```prolog
 mid([
-  [2, 1, 3, 1, 1, 1, 4, 1, 1],
-  [1, 1, 4, 2, 4, 1, 2, 3, 1],
-  [1, 1, 2, 4, 1, 3, 1, 1, 1],
-  [1, 3, 1, 1, 3, 1, 2, 1, 1],
-  [3, 1, 1, 4, 1, 3, 1, 1, 1],
-  [1, 4, 2, 2, 1, 1, 2, 2, 1],
-  [1, 3, 1, 3, 3, 1, 2, 1, 1],
-  [4, 1, 2, 1, 2, 1, 3, 1, 1],
-  [1, 1, 3, 1, 1, 3, 1, 1, 4]
+  [b2, p1, p3, p1, p1, p1, b4, p1, p1],
+  [p1, p1, b4, b2, b4, p1, b2, p3, p1],
+  [p1, p1, b2, b4, p1, p3, p1, p1, p1],
+  [p1, p3, p1, p1, p3, p1, b2, p1, p1],
+  [p3, p1, p1, b4, p1, p3, p1, p1, p1],
+  [p1, b4, b2, b2, p1, p1, b2, b2, p1],
+  [p1, p3, p1, p3, p3, p1, b2, p1, p1],
+  [b4, p1, b2, p1, b2, p1, p3, p1, p1],
+  [p1, p1, p3, p1, p1, p3, p1, p1, b4]
   ]).
 ```
 
@@ -74,19 +73,22 @@ mid([
 ##### Estado Final
 ```prolog
 final([
-  [2, 1, 3, 1, 2, 1, 4, 1, 1],
-  [1, 1, 4, 2, 4, 1, 2, 3, 1],
-  [2, 2, 2, 4, 1, 3, 1, 2, 2],
-  [1, 3, 1, 1, 3, 1, 2, 1, 1],
-  [3, 1, 1, 4, 1, 3, 1, 2, 2],
-  [1, 4, 2, 2, 1, 1, 2, 3, 1],
-  [1, 3, 1, 3, 3, 1, 2, 1, 1],
-  [4, 2, 2, 1, 2, 1, 3, 1, 1],
-  [1, 1, 3, 2, 1, 3, 1, 2, 4]
+  [b4, p1, p3, p1, b2, p1, b4, p1, p1],
+  [p1, p1, b4, b2, b4, p1, b2, p3, p1],
+  [b2, b2, b2, b4, p1, p3, p1, b2, b2],
+  [p1, p3, p1, p1, p3, p1, b2, p1, p1],
+  [p3, p1, p1, b4, p1, p3, p1, b2, b2],
+  [p1, b4, b2, b2, p1, p1, b2, p3, p1],
+  [p1, p3, p1, p3, p3, p1, b2, p1, p1],
+  [b4, b2, b2, p1, b2, p1, p3, p1, p1],
+  [p1, p1, p3, b2, p1, p3, p1, b2, b4]
   ]).
 ```
-
 #### Visualização do estado de jogo
+O programa é inciado por play/0, demonstrando em seguida um menu, este pedindo o size do Board e o tipo de jogo: Player vs Player, Player vs Computer, Computer vs Computer. Dependendo do tipo de jogo, pede o nível de jogo do Computador (1 e 2), sendo que no nível 1 o Computador faz jogadas random, e no nível 2 faz jogadas inteligentes.
+
+##### Menu
+![Menu](https://github.com/Deadrosas/PLOG-Project/blob/main/resources/menu.PNG)
 
 Por ordem seguem se imagens da consola que representam cada um dos estados de jogos possíveis.
 
@@ -96,3 +98,42 @@ Por ordem seguem se imagens da consola que representam cada um dos estados de jo
 ![Estado Intermédio](https://github.com/Deadrosas/PLOG-Project/blob/main/resources/mid.PNG)
 ##### Estado Final
 ![Estado Final](https://github.com/Deadrosas/PLOG-Project/blob/main/resources/final.PNG)
+
+#### Lista de jogadas válidas
+Cada jogada corresponde a uma lista de 4 elementos sendo formatada da seguinte forma: **[X1, Y1, X2, Y2]**
+X1 - Linha da peça que se vai mover;
+Y1 - Coluna da peça que se vai mover;
+X2 - Linha para onde a peça se vai mover;
+Y2 - Coluna para onde a peça se vai mover;
+
+A lista de Valid Moves é obtida através do predicado **valid_moves(+GameState, +Player, -ListOfMoves)** que realiza um findall de **[X1, Y1, X2, Y2]** 
+com as condições para fazer a jogada no predicado **validmove(+GameState, +Player, -Move)**.
+
+Exemplo de uma jogada [1, 0, 0, 0] e demonstração de uma lista de Valid Moves:
+##### Valid Moves
+![Valid Moves](https://github.com/Deadrosas/PLOG-Project/blob/main/resources/validmoves.PNG)
+
+#### Execução de Jogadas
+A jogada lida e validada anteriormente é usada no predicado **move(+GameState, +Move, -NewGameState)** e dentro do mesmo são realizados os predicados
+**executeMove(+GameState, +Move, -NewGameState)** que muda o anterior Estado de Jogo para um novo Estado de Jogo, e o predicado **calcScore(+NewGameState, +Player)**
+que calcula o Score do jogador no final daquela jogada.
+
+**executeMove(+GameState, +Move, -NewGameState)** :
+Pega no valor do move ([X1, Y1, X2, Y2]) e troca o valor do Board nas coordenadas X1 e Y2 para cor diferente (ex: p2 passa para b2), pois é sempre adicionado uma peça do adversário à casa de onde o jogador se move.
+Troca também o valor nas coordenadas X2 e Y2 para cor diferente e adiciona 1 à stack (ex: b2 passa para p3).
+
+#### Final de Jogo
+O jogo termina através do predicado **game_over(+GameState, -Winner)** que verifica se a lista de ValidMoves de cada jogador está vazia.
+
+#### Avaliação do Tabuleiro
+A avaliação do estado de jogo é feito através do predicado **value(+GameState, +Player, -Value)** que chama uma função que por sua vez itera todos os elementos do tabuleiro. Para cada elemento é chamada a função **createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 0, NewPath)** que recebe a posição do elemento no tabuleiro *(CollummNumber, RowNumber)*, verifica se o elemento faz parte do caminho atual de pontos do caminho e caso não faça adiciona-o a uma lista de **Point = [Elemento, CollumnNumber, RowNumber]**. De seguida a função verifica peças da mesma cor ortogonalmente adjacentes e para cada uma delas chama a função createPath. Após terem sido criados todos os caminhos a partir deste elemento, a lista de pontos é adicionada a uma lista de caminhos.
+Nessa
+
+#### Jogada do Computador
+O nosso trabalho tem dois níveis de dificuldade, um nível em que o computador é completamente aleatório e escolhe uma jogada de entre as ainda possíveis e outro, no qual o computador escolhe uma jogada baseada no quão mais alta vai ser a sua pontuação após tal jogada.
+A jogada do computador nível 1 é executada pela função **randomBot(Board, Turn, NewBoard)** que recebe o tabuleiro atual, cria uma lista de movimentos possíveis e escolhe um aleatóriamente.
+A jogada do computador nível 2 é executada pela função **smartBot(Board, Turn, NewBoard)** que tal como o random bot recebe o tabuleiro atual, cria uma lista de movimentos possíveis, calcula um tabuleiro novo para cada um desses movimentose calcula o value de cada um. O move que levar ao tabuleiro com maior valor é executada.
+
+### Conclusões
+
+### Bibliografia

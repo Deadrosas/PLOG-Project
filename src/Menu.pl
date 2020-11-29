@@ -79,9 +79,12 @@ S:::::::::::::::SS            W:::W           W:::WA:::::A                 A::::
 select_mode(GameMode,Level1,Level2,Size):-
   print('Insira o Tamanho do Board: '),
   read(Sizet), nl,nl,
-  (Sizet > 10, !,
+  (Sizet < 3, !,
+  Size1 = 3;
+  Size1 = Sizet),
+  (Size1 > 10, !,
   Size = 10;
-  Size = Sizet),
+  Size = Size1),
   write('1 - Player vs Player'), nl,
   write('2 - Player vs Computer'), nl,
   write('3 - Computer vs Computer'), nl,
