@@ -45,7 +45,6 @@ mainLoop(Board, Turn, CPUS, N):-
     displayGame(Board), !,
     nextMove(Board, Turn, CPUS, NewBoard),
     checkBoardDif(Board, NewBoard, N, NewN),
-    write(NewN), nl,
     mainLoop(NewBoard, NextTurn, CPUS, NewN).
 
 
