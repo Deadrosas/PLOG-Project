@@ -57,23 +57,22 @@ createPath(Board, RowNumber, CollumnNumber, CurrentPath, BoardSize, 1, NewPath):
     getRightPath(Board, RowNumber, RightX, Path2, BoardSize, 1, Path3), !,
     getDownPath(Board, DownY, CollumnNumber, Path3, BoardSize, 1, NewPath), !.
 
-
-getUpPath(Board, RowNumber, CollumnNumber, Path, _, Player, Path):-RowNumber < 0, !.
+getUpPath(_, RowNumber, _, Path, _, _, Path):-RowNumber < 0, !.
 getUpPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath):-
     RowNumber >= 0,
     createPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath).
 
-getLeftPath(Board, RowNumber, CollumnNumber, Path, _, Player, Path):-CollumnNumber < 0, !.
+getLeftPath(_, _, CollumnNumber, Path, _, _, Path):-CollumnNumber < 0, !.
 getLeftPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath):-
     CollumnNumber >= 0,
     createPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath).
 
-getRightPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, Path):-CollumnNumber > BoardSize, !.
+getRightPath(_, _, CollumnNumber, Path, BoardSize, _, Path):-CollumnNumber > BoardSize, !.
 getRightPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath):-
     CollumnNumber =< BoardSize,
     createPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath).
 
-getDownPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, Path):-RowNumber > BoardSize, !.
+getDownPath(_, RowNumber, _, Path, BoardSize, _, Path):-RowNumber > BoardSize, !.
 getDownPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath):-
     RowNumber =< BoardSize,
     createPath(Board, RowNumber, CollumnNumber, Path, BoardSize, Player, NewPath).

@@ -43,7 +43,7 @@ decidePlay(Var, Board, Turn, NewBoard):-
     Var == 'play',
     readMove(Board, Turn, NewBoard).
 
-decidePlay(Var, Board, Turn, Board):-
+decidePlay(Var, Board, _, Board):-
     Var == 'pass'.
 
 readPlay(Board, Turn, NewBoard):-
@@ -56,12 +56,13 @@ readPlay(Board, Turn, NewBoard):-
 validate_inputs(Board, Turn, M, M):-
     valid_move(Board, Turn, M), !.
 
-validate_inputs(Board, Turn, M, _):-
+validate_inputs(Board, Turn, M, M1):-
+    \+valid_move(Board, Turn, M),
     write('Por favor faca uma jogada valida...'), nl,
-    readInputs(Board, Turn, M).
+    readInputs(Board, Turn, M1).
 
 
-readInputs(Board, Turn, [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber]):-
+readInputs(Board, Turn, M):-
     write('Insira a linha de onde mover: '),
     read(FromRow),
     write('Insira a Coluna de onde mover: '),
@@ -77,7 +78,6 @@ readInputs(Board, Turn, [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber]):-
 
     M1 = [FromRow, FromCollumnNumber, ToRow, ToCollumnNumber],
     validate_inputs(Board, Turn, M1, M).
-
 
 readMove(Board, Turn, NewBoard):-
     !,

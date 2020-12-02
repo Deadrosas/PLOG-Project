@@ -23,15 +23,15 @@ get_board_score(Board, Turn, M, Score, NewBoard):-
     executeMove(Board, M, NewBoard),
     value(NewBoard, Turn, Score).
 
-smart_pass_play(Board, Turn, [], CurrentMaxScore, NewBoard, NewBoard).
+smart_pass_play(_, _, [], _, NewBoard, NewBoard).
 
-smart_pass_play(Board, Turn, [M|T], CurrentMaxScore, AuxBoard, NewBoard):-
+smart_pass_play(Board, Turn, [M|T], CurrentMaxScore, _, NewBoard):-
     get_board_score(Board, Turn, M, Score, TempBoard),
     Score > CurrentMaxScore,
     smart_pass_play(Board, Turn, T, Score, TempBoard, NewBoard).
 
 smart_pass_play(Board, Turn, [M|T], CurrentMaxScore, AuxBoard, NewBoard):-
-    get_board_score(Board, Turn, M, Score, TempBoard),
+    get_board_score(Board, Turn, M, Score, _),
     Score =< CurrentMaxScore,
     smart_pass_play(Board, Turn, T, Score, AuxBoard, NewBoard).
 

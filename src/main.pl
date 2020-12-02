@@ -10,30 +10,28 @@
 
 play:-
     display_game_name,
-    select_mode(GameMode,CPU1,CPU2,Size),
+    select_mode(_,CPU1,CPU2,Size),
     createBoard(Board, Size, Size, 0),
-    createBlackHand(BlackHand, Size),
-    createWhiteHand(WhiteHand, Size),
     Turn is 0,
     CPUS = [CPU1, CPU2],
-    mainLoop(Board, Turn, CPUS, 0),
+    mainLoop(Board, Turn, CPUS, 0), nl,
     print('Finished execution correctly.').
 
 game_over(Board, 0):-
     value(Board, 0, Score0),
     value(Board, 1, Score1),
     Score0>Score1, !,
-    write(Score0),nl,
-    write(Score1),nl.
+    format('Player 0 score: ~w.', Score0),nl,
+    format('Player 1 score: ~w.', Score1),nl.
 
 game_over(Board, 1):-
     value(Board, 0, Score0),
     value(Board, 1, Score1),
     Score0<Score1, !,
-    write(Score0),nl,
-    write(Score1),nl.
+    format('Player 0 score: ~w.', Score0),nl,
+    format('Player 1 score: ~w.', Score1),nl.
 
-mainLoop(Board, Turn, CPUS, 2):-
+mainLoop(Board, _, _, 2):-
     game_over(Board, Winner),
     format('Player ~w is the winner! Congratulations.', Winner).
 
@@ -52,5 +50,5 @@ checkBoardDif(Board, NewBoard, N, NewN):-
     \+dif(Board,NewBoard),
     NewN is N + 1.
 
-checkBoardDif(Board, NewBoard, N, 0):-
+checkBoardDif(Board, NewBoard, _, 0):-
     dif(Board,NewBoard).

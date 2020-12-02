@@ -77,3 +77,4 @@ createRow([p1|Row], N, 1):-
   N > 0,
   N1 is N-1,
   createRow(Row, N1, 0).
+
