@@ -24,6 +24,9 @@ nextMove(Board, 1, [2, 0], NewBoard):-
 nextMove(Board, 0, [1, 1], NewBoard):-
     randomBot(Board, 0, NewBoard).
 
+nextMove(Board, 0, [1, 2], NewBoard):-
+    randomBot(Board, 0, NewBoard).
+
 nextMove(Board, 1, [_, 1], NewBoard):-
     randomBot(Board, 1, NewBoard).
 

@@ -22,18 +22,28 @@ game_over(Board, 0):-
     value(Board, 1, Score1),
     Score0>Score1, !,
     format('Player 0 score: ~w.', Score0),nl,
-    format('Player 1 score: ~w.', Score1),nl.
+    format('Player 1 score: ~w.', Score1),nl,
+    write('Player 0 is the winner! Congratulations.').
 
 game_over(Board, 1):-
     value(Board, 0, Score0),
     value(Board, 1, Score1),
     Score0<Score1, !,
     format('Player 0 score: ~w.', Score0),nl,
-    format('Player 1 score: ~w.', Score1),nl.
+    format('Player 1 score: ~w.', Score1),nl,
+    write('Player 1 is the winner! Congratulations.').
+
+game_over(Board, _):-
+    value(Board, 0, Score0),
+    value(Board, 1, Score1),
+    Score0 == Score1, !,
+    format('Player 0 score: ~w.', Score0),nl,
+    format('Player 1 score: ~w.', Score1),nl,
+    write('Its a Tie...').
 
 mainLoop(Board, _, _, 2):-
-    game_over(Board, Winner),
-    format('Player ~w is the winner! Congratulations.', Winner).
+    game_over(Board, _).
+    
 
 mainLoop(Board, Turn, CPUS, N):-
     dif(N,2),
@@ -43,6 +53,7 @@ mainLoop(Board, Turn, CPUS, N):-
     displayGame(Board), !,
     nextMove(Board, Turn, CPUS, NewBoard),
     checkBoardDif(Board, NewBoard, N, NewN),
+    write(N), nl,
     mainLoop(NewBoard, NextTurn, CPUS, NewN).
 
 
